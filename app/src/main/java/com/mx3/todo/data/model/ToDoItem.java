@@ -25,6 +25,12 @@ public class ToDoItem implements Parcelable {
         this.isCompleted = isCompleted;
     }
 
+    // Helper Methods
+
+    public void toggleCompleted() {
+        this.isCompleted = !isCompleted;
+    }
+
     // Getters and Setters
 
     public Integer getId() {

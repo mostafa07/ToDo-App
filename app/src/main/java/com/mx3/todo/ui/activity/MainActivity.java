@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.mx3.todo.R;
 import com.mx3.todo.databinding.ActivityMainBinding;
+import com.mx3.todo.ui.adapter.ToDoItemAdapter;
 import com.mx3.todo.ui.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding mBinding;
     private MainViewModel mMainViewModel;
+    private ToDoItemAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +29,20 @@ public class MainActivity extends AppCompatActivity {
         mBinding.setViewModel(mMainViewModel);
 
         setupRecyclerView();
+        setupViewModelObservations();
     }
 
     private void setupRecyclerView() {
+        mAdapter = new ToDoItemAdapter((dataItem, position) -> {
+            dataItem.toggleCompleted();
+            mAdapter.updateItemAtPosition(dataItem, position);
+        });
+        mBinding.recyclerView.setAdapter(mAdapter);
+    }
 
+    private void setupViewModelObservations() {
+        mMainViewModel.getToDoItemListLiveData().observe(this, toDoItems -> {
+            mAdapter.setDataList(toDoItems);
+        });
     }
 }
