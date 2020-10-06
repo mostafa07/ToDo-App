@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new ToDoItemAdapter((dataItem, position) -> {
             dataItem.toggleCompleted();
             mAdapter.updateItemAtPosition(dataItem, position);
+
         });
         mBinding.recyclerView.setAdapter(mAdapter);
     }
