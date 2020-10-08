@@ -2,7 +2,6 @@ package com.mx3.todo.ui.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -42,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         mAdapter = new ToDoItemAdapter((dataItem, position) -> {
             dataItem.toggleCompleted();
-            mAdapter.updateItemAtPosition(dataItem, position);
-
+            mMainViewModel.updateToDoItem(dataItem);
         });
         mBinding.recyclerView.setAdapter(mAdapter);
     }

@@ -38,13 +38,17 @@ public class ToDoItemsRepository {
         }
     }
 
-    // Just for the demo
+    // Not advised to use LIve Data in repository, but it it Just for the demo
     public LiveData<List<ToDoItem>> getToDoItemsLiveData() {
         return mToDoItemListLiveData;
     }
 
     public void insertToDoItem(final ToDoItem toDoItem) {
         new InsertToDoItemAsyncTask().execute(toDoItem);
+    }
+
+    public void updateToDoItem(final ToDoItem toDoItem) {
+        new UpdateToDoItemAsyncTask().execute(toDoItem);
     }
 
     // I still know.. this is "very" old and not used anymore, but it is just for the demo
@@ -57,6 +61,21 @@ public class ToDoItemsRepository {
         protected Void doInBackground(ToDoItem... toDoItems) {
             if (toDoItems != null && toDoItems.length != 0) {
                 mToDoItemDao.insert(toDoItems[0]);
+            }
+            return null;
+        }
+    }
+
+    // I swear I still know.. this is "very" old and not used anymore, but it is just for the demo
+    private class UpdateToDoItemAsyncTask extends AsyncTask<ToDoItem, Void, Void> {
+
+        public UpdateToDoItemAsyncTask() {
+        }
+
+        @Override
+        protected Void doInBackground(ToDoItem... toDoItems) {
+            if (toDoItems != null && toDoItems.length != 0) {
+                mToDoItemDao.update(toDoItems[0]);
             }
             return null;
         }

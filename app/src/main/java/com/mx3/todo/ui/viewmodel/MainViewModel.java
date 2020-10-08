@@ -33,8 +33,13 @@ public class MainViewModel extends AndroidViewModel {
 
     public void insertToDoItem() {
         final ToDoItem toDoItemToBeAdded = mToDoItemToBeAddedMutableLiveData.getValue();
+        toDoItemToBeAdded.setCompleted(false);
         mToDoItemsRepository.insertToDoItem(toDoItemToBeAdded);
         mToDoItemToBeAddedMutableLiveData.setValue(new ToDoItem());
+    }
+
+    public void updateToDoItem(final ToDoItem toDoItemToBeUpdated) {
+        mToDoItemsRepository.updateToDoItem(toDoItemToBeUpdated);
     }
 
     // Getters and Setters
