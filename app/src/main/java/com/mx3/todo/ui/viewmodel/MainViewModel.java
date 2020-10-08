@@ -1,6 +1,5 @@
 package com.mx3.todo.ui.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -19,24 +18,32 @@ public class MainViewModel extends AndroidViewModel {
 
     private ToDoItemsRepository mToDoItemsRepository;
     private LiveData<List<ToDoItem>> mToDoItemListMutableLiveData;
+    private MutableLiveData<ToDoItem> mToDoItemToBeAddedMutableLiveData;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
 
         mToDoItemsRepository = ToDoItemsRepository.getInstance(application);
         mToDoItemListMutableLiveData = new MutableLiveData<>();
+        mToDoItemToBeAddedMutableLiveData = new MutableLiveData<>(new ToDoItem());
 
-        // retrieve to do items once
-        getToDoItems();
+        mToDoItemListMutableLiveData = mToDoItemsRepository.getToDoItemsLiveData();
     }
 
-    public void getToDoItems() {
-        mToDoItemListMutableLiveData = mToDoItemsRepository.getToDoItemsLiveData();
+
+    public void insertToDoItem() {
+        final ToDoItem toDoItemToBeAdded = mToDoItemToBeAddedMutableLiveData.getValue();
+        mToDoItemsRepository.insertToDoItem(toDoItemToBeAdded);
+        mToDoItemToBeAddedMutableLiveData.setValue(new ToDoItem());
     }
 
     // Getters and Setters
 
     public LiveData<List<ToDoItem>> getToDoItemListLiveData() {
         return mToDoItemListMutableLiveData;
+    }
+
+    public LiveData<ToDoItem> getToDoItemToBeAddedLiveData() {
+        return mToDoItemToBeAddedMutableLiveData;
     }
 }
